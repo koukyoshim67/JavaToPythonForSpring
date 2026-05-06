@@ -1,114 +1,104 @@
-# JavaToPython
+# Java To Python for Spring (Cursor Prompt)
 
-JavaソースコードをPythonコードへ変換するCLIツール。
-構文解析を用いて、クラス構造やメソッド定義の**スケルトン（骨組み）を自動生成**します。
+Java（Spring Boot）コードをPython（FastAPI）へ変換するための
+**Cursor用プロンプトテンプレート**です。
 
 ---
 
-## 🎯 目的
+## 🎯 概要
 
-本ツールは、Javaコードを完全にPythonへ変換するものではなく、
-**構造の抽出とスケルトン生成を目的**としています。
+本プロンプトは、Spring Bootで構築されたバックエンドコードを
+FastAPIベースのPythonコードへ変換することを目的としています。
 
-ビジネスロジック（メソッド内部処理）の変換は対象外とし、
-人手による補完を前提としています。
+単なる構文変換ではなく、以下を重視しています：
+
+* Spring構造の再現
+* Pythonicな設計
+* 実行可能なAPIコードの生成
 
 ---
 
 ## ✨ 特徴
 
-* Javaコードからクラス・メソッド構造を抽出
-* Pythonの型ヒント付きでスケルトン生成
-* `javalang` による構文解析（可能な場合）
-* パース失敗時のフォールバック変換あり
-* CLIツールとしてシンプルに利用可能
+* Controller → FastAPI Router に変換
+* DTO → Pydanticモデル化
+* Service層のロジック分離
+* DI（依存性注入）をFastAPI方式に変換
+* 最低限のDB構造（SQLAlchemy）を再現
+* 実際に動作するAPIコードを生成
 
 ---
 
-## 🛠️ インストール
+## 🛠️ 使い方
 
-### 必須
-
-* Python 3.10+
-
-### 任意（推奨）
-
-```bash
-pip install javalang
-```
-
-※ 未インストールでも動作しますが、精度は低下します。
+1. Cursorを開く
+2. 本リポジトリのプロンプトをコピー
+3. Java（Spring）コードを貼り付け
+4. 実行してPythonコードを生成
 
 ---
 
-## 🚀 使い方
+## 🔄 変換対象
 
-```bash
-python JavaToPython.py <入力.java> <出力.py>
-```
+以下のSpring構造に対応：
 
-### 例
-
-```bash
-python JavaToPython.py Sample.java Sample.py
-```
+* `@RestController`
+* `@Service`
+* `@Repository`
+* `@RequestMapping / @GetMapping / @PostMapping`
+* `@RequestBody / @PathVariable / @RequestParam`
+* DTO / Entity クラス
 
 ---
 
-## 🔄 変換例
+## 🚀 出力仕様
 
-### 入力（Java）
-
-```java
-public class UserService {
-    public String getName() {
-        return "test";
-    }
-}
-```
-
-### 出力（Python）
-
-```python
-class UserService:
-    """Converted from Java class UserService."""
-
-    def getName(self) -> str:
-        # TODO: メソッド本体は手で移植してください
-        ...
-```
+* FastAPIアプリとして実行可能なPythonコード
+* 型ヒント付き
+* 必要なimportを含む
+* 1ファイル構成（シンプル設計）
 
 ---
 
 ## ⚠️ 制約
 
-* メソッド内部のロジックは変換されません
-* Java特有の構文（Stream API / ラムダ / ジェネリクスなど）は完全には対応していません
-* Springなどのフレームワークには未対応です
-* 完全なコード変換ではなく、あくまで補助ツールです
+* Spring Security は未対応（簡略化されます）
+* 複雑なJPAリレーションは簡略化されます
+* AOP（Aspect）は変換されません
+* 完全なコード変換ではなく、補助ツールです
 
 ---
 
-## 🧠 設計方針
+## 🧠 設計思想
 
-本ツールは以下の考えに基づいて設計されています：
+Java（Spring）とPython（FastAPI）は設計思想が大きく異なるため、
+完全な自動変換は現実的ではありません。
 
-* Java → Pythonの完全自動変換は困難
-* 構造変換とロジック変換は別問題
-* まずは「編集しやすい骨組み」を生成することが重要
+そのため本プロンプトは：
 
-このため、あえてスコープを絞り、
-**開発者の作業を効率化するツール**として設計しています。
+> 「動作する叩き台を高速生成する」
+
+ことにフォーカスしています。
+
+---
+
+## ⚙️ 実行方法（CLI連携）
+
+以下のようなCLIツールと組み合わせて使用できます：
+
+```bash
+JavaToPython Arg1(変換前Javaファイル) Arg2(変換後Pythonファイル)
+```
 
 ---
 
 ## 🔮 今後の拡張
 
-* LLM（AI）連携によるメソッド内部の自動変換
-* FastAPI / Flask への自動変換
-* ディレクトリ単位の一括変換
-* 差分検出による再変換
-* コードフォーマット（black / ruff）連携
+* LLM APIとの自動連携
+* マルチファイル構成への対応
+* Spring Securityの部分対応
+* 非同期処理（async/await）の強化
+* DBマイグレーション対応
 
 ---
 
@@ -120,11 +110,15 @@ MIT License
 
 ## 👤 Author
 
-* Your Name
+* Koki Yoshimoto
 
 ---
 
 ## 💬 補足
+
+このプロンプトは「完全変換」を目的としたものではなく、
+**開発効率を上げるための生成テンプレート**です。
+
 
 このツールは「完全変換」を目指すものではなく、
 **移植作業のスタート地点を作るためのツール**です。
